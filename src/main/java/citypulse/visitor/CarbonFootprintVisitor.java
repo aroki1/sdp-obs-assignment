@@ -2,6 +2,7 @@ package citypulse.visitor;
 
 import citypulse.city.AirMonitor;
 import citypulse.city.Building;
+import citypulse.city.ChargingStation;
 import citypulse.city.City;
 import citypulse.city.CityNode;
 import citypulse.city.CityVisitor;
@@ -16,6 +17,7 @@ public final class CarbonFootprintVisitor implements CityVisitor<Double> {
     private static final double LIGHT_HOURS_PER_DAY = 12;
     private static final double ALWAYS_ON_HOURS = 24;
     private static final double PUMP_HOURS_PER_DAY = 8;
+    private static final double CHARGER_HOURS_PER_DAY = 6;
 
     private final double kgCo2PerKwh;
 
@@ -56,6 +58,11 @@ public final class CarbonFootprintVisitor implements CityVisitor<Double> {
     @Override
     public Double visit(WaterPump pump) {
         return dailyKg(pump.watts(), PUMP_HOURS_PER_DAY);
+    }
+
+    @Override
+    public Double visit(ChargingStation station) {
+        return dailyKg(station.watts(), CHARGER_HOURS_PER_DAY);
     }
 
     private double sum(List<? extends CityNode> nodes) {

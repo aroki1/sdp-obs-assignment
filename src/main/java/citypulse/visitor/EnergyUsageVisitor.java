@@ -2,6 +2,7 @@ package citypulse.visitor;
 
 import citypulse.city.AirMonitor;
 import citypulse.city.Building;
+import citypulse.city.ChargingStation;
 import citypulse.city.City;
 import citypulse.city.CityNode;
 import citypulse.city.CityVisitor;
@@ -47,6 +48,11 @@ public final class EnergyUsageVisitor implements CityVisitor<Double> {
     @Override
     public Double visit(WaterPump pump) {
         return pump.watts();
+    }
+
+    @Override
+    public Double visit(ChargingStation station) {
+        return station.watts();
     }
 
     private double sum(List<? extends CityNode> nodes) {

@@ -2,6 +2,7 @@ package citypulse.visitor;
 
 import citypulse.TestCity;
 import citypulse.city.AirMonitor;
+import citypulse.city.ChargingStation;
 import citypulse.city.CityNode;
 import citypulse.city.District;
 import org.junit.jupiter.api.Test;
@@ -61,6 +62,21 @@ class VisitorTest {
                 + "{\"type\":\"streetLight\",\"id\":\"l2\",\"watts\":100.0,\"health\":20,\"lumens\":800}]}]}";
 
         assertEquals(expected, TestCity.SOUTH.accept(new JsonExportVisitor()));
+    }
+
+    @Test
+    void chargingStationIsHandledByEveryVisitor() {
+        District district = new District("east", List.of(new ChargingStation("c1", 7000, 30, 2)));
+        MaintenanceCostVisitor maintenance = new MaintenanceCostVisitor();
+        district.accept(maintenance);
+
+        assertEquals(7000.0, district.accept(new EnergyUsageVisitor()));
+        assertEquals(21.0, district.accept(new CarbonFootprintVisitor(0.5)), 1e-9);
+        assertEquals(210.0, maintenance.totalCost(), 1e-9);
+        assertEquals(List.of(district.children().get(0)), district.accept(new InspectionVisitor(40)));
+        assertEquals("{\"type\":\"district\",\"id\":\"east\",\"children\":["
+                        + "{\"type\":\"chargingStation\",\"id\":\"c1\",\"watts\":7000.0,\"health\":30,\"connectors\":2}]}",
+                district.accept(new JsonExportVisitor()));
     }
 
     @Test

@@ -2,6 +2,7 @@ package citypulse.visitor;
 
 import citypulse.city.AirMonitor;
 import citypulse.city.Building;
+import citypulse.city.ChargingStation;
 import citypulse.city.City;
 import citypulse.city.CityNode;
 import citypulse.city.CityVisitor;
@@ -52,6 +53,11 @@ public final class InspectionVisitor implements CityVisitor<List<CityNode>> {
     @Override
     public List<CityNode> visit(WaterPump pump) {
         return inspect(pump, pump.health());
+    }
+
+    @Override
+    public List<CityNode> visit(ChargingStation station) {
+        return inspect(station, station.health());
     }
 
     private List<CityNode> collect(List<? extends CityNode> nodes) {

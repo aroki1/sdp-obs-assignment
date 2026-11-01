@@ -14,4 +14,6 @@ public interface CityVisitor<R> {
     R visit(AirMonitor monitor);
 
     R visit(WaterPump pump);
+
+    R visit(ChargingStation station);
 }

@@ -2,6 +2,7 @@ package citypulse;
 
 import citypulse.city.AirMonitor;
 import citypulse.city.Building;
+import citypulse.city.ChargingStation;
 import citypulse.city.City;
 import citypulse.city.District;
 import citypulse.city.StreetLight;
@@ -122,6 +123,7 @@ public final class CityPulseApp {
                         new TrafficSignal("bt-1", 120, 50, 3))),
                 new District("almaly", List.of(
                         new TrafficSignal("at-1", 120, 20, 4),
+                        new ChargingStation("ac-1", 7000, 60, 2),
                         new StreetLight("al-1", 60, 75, 1200)))));
     }
 

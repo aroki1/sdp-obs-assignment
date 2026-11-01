@@ -2,6 +2,7 @@ package citypulse.visitor;
 
 import citypulse.city.AirMonitor;
 import citypulse.city.Building;
+import citypulse.city.ChargingStation;
 import citypulse.city.City;
 import citypulse.city.CityNode;
 import citypulse.city.CityVisitor;
@@ -50,6 +51,12 @@ public final class JsonExportVisitor implements CityVisitor<String> {
     public String visit(WaterPump pump) {
         return device("waterPump", pump.id(), pump.watts(), pump.health(),
                 field("litresPerMinute", pump.litresPerMinute()));
+    }
+
+    @Override
+    public String visit(ChargingStation station) {
+        return device("chargingStation", station.id(), station.watts(), station.health(),
+                field("connectors", station.connectors()));
     }
 
     private String container(String type, String id, List<? extends CityNode> children) {

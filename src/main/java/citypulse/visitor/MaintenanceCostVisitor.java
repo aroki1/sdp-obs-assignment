@@ -2,6 +2,7 @@ package citypulse.visitor;
 
 import citypulse.city.AirMonitor;
 import citypulse.city.Building;
+import citypulse.city.ChargingStation;
 import citypulse.city.City;
 import citypulse.city.CityNode;
 import citypulse.city.CityVisitor;
@@ -21,6 +22,7 @@ public final class MaintenanceCostVisitor implements CityVisitor<Void> {
     private static final double SIGNAL_RATE = 200;
     private static final double MONITOR_RATE = 150;
     private static final double PUMP_RATE = 400;
+    private static final double CHARGER_RATE = 300;
 
     private final Map<String, Double> costByDistrict = new HashMap<>();
     private String currentDistrict = UNASSIGNED;
@@ -71,6 +73,11 @@ public final class MaintenanceCostVisitor implements CityVisitor<Void> {
     @Override
     public Void visit(WaterPump pump) {
         return addCost(PUMP_RATE, pump.health());
+    }
+
+    @Override
+    public Void visit(ChargingStation station) {
+        return addCost(CHARGER_RATE, station.health());
     }
 
     private Void visitAll(List<? extends CityNode> nodes) {

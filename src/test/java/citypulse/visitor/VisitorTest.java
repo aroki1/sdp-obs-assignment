@@ -24,6 +24,12 @@ class VisitorTest {
     }
 
     @Test
+    void carbonFootprintUsesDailyOperatingHours() {
+        // north: (100*12 + 20*24 + 150*24) / 1000 * 0.5 = 2.64 kg
+        assertEquals(2.64, TestCity.NORTH.accept(new CarbonFootprintVisitor(0.5)), 1e-9);
+    }
+
+    @Test
     void maintenanceCostAccumulatesPerDistrict() {
         MaintenanceCostVisitor visitor = new MaintenanceCostVisitor();
         TestCity.CITY.accept(visitor);
